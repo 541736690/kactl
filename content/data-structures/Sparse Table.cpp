@@ -1,26 +1,22 @@
 /**
- * Author: 罗穗骞, chilli
- * Date: 2019-04-11
- * License: Unknown
- * Source: Suffix array - a powerful tool for dealing with strings
- * (Chinese IOI National team training paper, 2009)
- * Description: Builds suffix array for a string.
- * \texttt{sa[i]} is the starting index of the suffix which
- * is $i$'th in the sorted suffix array.
- * The returned vector is of size $n+1$, and \texttt{sa[0] = n}.
- * The \texttt{lcp} array contains longest common prefixes for
- * neighbouring strings in the suffix array:
- * \texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}.
- * The input string must not contain any zero bytes.
- * Time: O(n \log n)
- * Status: fuzz-tested
+ * Author: 
+ * Date: 
+ * License: 
+ * Source: 
+ * Description: 
  */
-#pragma once
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+const int N = (int)3e5 + 50, LOGN = 19;
 
 struct SA {
     int n;
     // ht[i] = lcp(suffix[sa[i]], suffix[sa[i-1]])
     int rk[N], sa[N], ht[N];
+    int st[LOGN + 1][N], mm[N];
+
 
     void build(string str) {
         n = str.length();
@@ -64,6 +60,7 @@ struct SA {
 
             if (unique) break;
         }
+
         for(int i = 1, k = 0; i <= n; i++) {
             if(rk[i] == 1) k = 0;
             else {
@@ -73,5 +70,29 @@ struct SA {
             }
             ht[rk[i]] = k;
         }
+
+        mm[0]=-1;
+        for(int i = 1; i <= n; i++) mm[i]= (i & (i-1)) == 0 ? mm[i-1] + 1 : mm[i-1];
+        for(int i = 0; i <= n; i++){
+            st[0][i] = ht[i];
+        }
+        for(int lg = 1; lg < LOGN; lg++){
+            for(int j = 0; j + (1 << lg) - 1 <= n; j++){
+                st[lg][j] = min(st[lg-1][j], st[lg-1][j+(1<<(lg-1))]);
+            }
+        }
+    }
+
+    int rmq(int l, int r){
+        int k = mm[r - l + 1];
+        return min(st[k][l], st[k][r-(1<<k)+1]);
+    }
+
+    int lcp(int l, int r) {
+        if(l == r) return -1;
+        int li = rk[l], ri = rk[r];
+        if(li > ri) swap(li, ri);
+        li++;
+        return rmq(li, ri);
     }
 } sa;
