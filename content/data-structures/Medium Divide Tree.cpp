@@ -3,16 +3,15 @@
  * Date: 
  * License: 
  * Source: 
- * Description: 
+ * Description: I unofficially named it medium divide tree.
+  HDU 2665 / POJ 2104
+  O(logn) query for kth number in certain interval
  */
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
 using namespace std;
 
-// I unofficially named it medium divide tree.
-// HDU 2665 / POJ 2104
-// O(logn) query for kth number in certain interval
 const int N = (int)1e5 + 500, LOGN = 20;
 
 int n,q;

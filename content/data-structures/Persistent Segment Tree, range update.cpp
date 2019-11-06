@@ -17,13 +17,6 @@ const int N = (int)1e5 + 50;
 typedef pair<int, int> P;
 typedef long long ll;
 
-void scanf_(int &num){
-    char in;
-    while((in=getchar())>'9'||in<'0');
-    num=in-'0';
-    while(in=getchar(),in>='0'&&in<='9')
-        num*=10,num+=in-'0';
-}
 
 //Need to initialize before every test case!
 int ncnt = 1;
@@ -94,36 +87,4 @@ int update(int v, int l, int r, int val, int tl = 0, int tr = n-1){
     push_down(v, tl, tr);
     int tm = (tl + tr) / 2;
     return newnode(update(ns[v].ls, l, r, val, tl, tm), update(ns[v].rs, l, r, val, tm+1, tr));
-}
-
-int main(){
-    while(scanf("%d%d", &n, &q) == 2){
-        ncnt = 1;
-        for(int i = 0; i < n; i++) scanf("%d", &num[i]);
-        tim = 0;
-        vs[tim++] = build(num);
-        while(q--){
-            char c[2]; int l, r, x;
-            scanf("%s", c);
-            if(c[0] == 'C'){
-                scanf("%d%d%d", &l, &r, &x); l--, r--;
-                vs[tim] = update(vs[tim-1], l, r, x);
-                tim++;
-            }
-            else if(c[0] == 'Q'){
-                scanf("%d%d", &l, &r); l--, r--;
-                printf("%lld\n", get_sum(vs[tim-1], l, r));
-            }
-            else if(c[0] == 'H'){
-                scanf("%d%d%d", &l, &r, &x); l--, r--;
-                printf("%lld\n", get_sum(vs[x], l, r));
-            }
-            else{
-                scanf("%d", &x);
-                tim = x + 1;
-            }
-        }
-
-    }
-
 }
