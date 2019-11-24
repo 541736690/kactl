@@ -13,7 +13,7 @@ const int M = 100050;
 bool p[M];
 int mu[M], pm[M], phi[M], pms;
 
-void get_mobius_and_sieve(){
+void sieve(){
     mu[1] = 1;
     phi[1] = 1;
     fill(p, p + M, true);
