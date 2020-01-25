@@ -20,6 +20,8 @@ const int N = (1 << 16) + 50, mod = 998244353, g = 3;
 
 int rev[N], w[2][N];
 
+inline int inc(int x,int y){return (x+=y)>=mod?x-mod:x;}
+
 int pow(int x, int k){
     int c = 1;
     for(; k; k >>= 1, x = int(x * 1LL * x % mod)) if(k & 1) c = int(c * 1LL * x % mod);
@@ -50,8 +52,8 @@ void NTT(vector<int> &y, int on, int len){
             for (int k = j; k < j + h / 2; k++) {
                 int u = y[k];
                 int t = int(1LL * w[on==-1][l] * y[k + h / 2] % mod);
-                y[k] = (u + t) % mod;
-                y[k + h / 2] = ((u - t) % mod + mod) % mod;
+                y[k] = inc(u, t);
+                y[k + h / 2] = inc(u, mod - t);
                 l += wi;
             }
         }

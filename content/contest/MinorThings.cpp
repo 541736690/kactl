@@ -14,8 +14,6 @@ struct HASH{
         return hash<ll>()((x.first)^((x.second)<<32));
     }
 };
-unordered_map<P, int> ump;
-
 // multiply numbers up to 1e18 under some modulo
 ll big_mul(ll a, ll b)
 {
@@ -35,7 +33,13 @@ int main(){
     //calculating sum of floor(n/i) in O(sqrt(n))
     for (int i = 1, j = 0; i <= n; i = j + 1)  j = n/(n/i), ans += 1ll*(j-i+1)*(n/i);
         
-        
+    // Iterate every submask
+    for(int mask = 0; mask < (1 << n); mask++) {
+        for(int sub = mask; ; sub = (sub - 1) & mask) {
+            //...
+            if(sub == 0) break;
+        }
+    }
 
     //Better hash map
     unordered_map<int, int> mp;
